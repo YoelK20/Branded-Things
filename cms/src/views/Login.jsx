@@ -1,16 +1,21 @@
-import axios from "axios"
+import axios from "axios";
 import { useState } from "react";
-import Toastify from "toastify-js"
+import { useNavigate } from "react-router-dom";
+import Toastify from "toastify-js";
+import { baseUrl } from "../utils/baseUrl";
 
-export default function Login({setPage, url}) {
-  const[email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  async function handleLogin(event){
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  async function handleLogin(event) {
     event.preventDefault();
     try {
-      let { data } = await axios.post(`${url}/login`, {email, password}, {})
-      console.log(data);
-      localStorage.setItem("access_token", data.access_token)
+      let { data } = await axios.post(`${baseUrl}/login`, { email, password }, {});
+      // console.log(data);
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
       Toastify({
         text: "Success Login",
         duration: 2000,
@@ -20,15 +25,30 @@ export default function Login({setPage, url}) {
         position: "right",
         stopOnFocus: true,
         style: {
-            background: "#00B29F",
-            color: "#17202A",
-            boxShadow: "0 5px 10px black",
-            fontWeight: "bold"
-        }
-    }).showToast();
-    setPage('home')
+          background: "#00B29F",
+          color: "#17202A",
+          boxShadow: "0 5px 10px black",
+          fontWeight: "bold",
+        },
+      }).showToast();
+
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      Toastify({
+        text: error.response.data.message,
+        duration: 2000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#EF4C54",
+          color: "#17202A",
+          boxShadow: "0 5px 10px black",
+          fontWeight: "bold",
+        },
+      }).showToast();
     }
   }
   return (
@@ -64,7 +84,9 @@ export default function Login({setPage, url}) {
               />
             </div>
             <div>
-              <button onClick={handleLogin} className="btn btn-accent">Log In</button>
+              <button onClick={handleLogin} className="btn btn-accent">
+                Log In
+              </button>
             </div>
           </form>
         </div>

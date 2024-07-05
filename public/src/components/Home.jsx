@@ -1,101 +1,44 @@
 import { useState } from "react";
 import Card from "./Card";
+import axios from "axios";
+import { useEffect } from "react";
 
-export default function Home() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Linen tie-belt dress",
-      description:
-        "Calf-length dress in airy linen with a gathered neckline and a V-shaped opening at the front with a discreet hook-and-eye fastener.",
-      price: 380000,
-      stock: 30,
-      imgUrl:
-        "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/2b47d9c1d312ddd680effd70024dc06ab0915ac8_xxl-1.jpg",
-      categoryId: 1,
-      authorId: 1,
-      createdAt: "2024-01-08T08:48:04.240Z",
-      updatedAt: "2024-01-16T08:34:47.860Z",
-      Category: {
-        id: 1,
-        name: "Ladies",
-        createdAt: "2024-06-25 00:04:39.106 +0700",
-        updatedAt: "2024-06-25 00:04:39.106 +0700",
-      },
-    },
-    {
-      id: 2,
-      name: "Loose Fit Hoodie",
-      description:
-        "Hoodie in midweight sweatshirt fabric made from a cotton blend with a soft brushed inside.",
-      price: 380000,
-      stock: 40,
-      imgUrl:
-        "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/4339fd648392a176a26722143193c5742a1e97e6_xxl-1.jpg",
-      categoryId: 1,
-      authorId: 1,
-      createdAt: "2024-01-08T08:48:04.240Z",
-      updatedAt: "2024-01-16T08:34:47.860Z",
-      Category: {
-        id: 1,
-        name: "Ladies",
-        createdAt: "2024-06-25 00:04:39.106 +0700",
-        updatedAt: "2024-06-25 00:04:39.106 +0700",
-      },
-    },
-    {
-      id: 3,
-      name: "Loose Fit Hoodie",
-      description:
-        "Hoodie in midweight sweatshirt fabric made from a cotton blend with a soft brushed inside.",
-      price: 380000,
-      stock: 40,
-      imgUrl:
-        "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/4339fd648392a176a26722143193c5742a1e97e6_xxl-1.jpg",
-      categoryId: 1,
-      authorId: 1,
-      createdAt: "2024-01-08T08:48:04.240Z",
-      updatedAt: "2024-01-16T08:34:47.860Z",
-      Category: {
-        id: 1,
-        name: "Ladies",
-        createdAt: "2024-06-25 00:04:39.106 +0700",
-        updatedAt: "2024-06-25 00:04:39.106 +0700",
-      },
-    },
-    {
-      id: 4,
-      name: "Loose Fit Hoodie",
-      description:
-        "Hoodie in midweight sweatshirt fabric made from a cotton blend with a soft brushed inside.",
-      price: 380000,
-      stock: 40,
-      imgUrl:
-        "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/4339fd648392a176a26722143193c5742a1e97e6_xxl-1.jpg",
-      categoryId: 1,
-      authorId: 1,
-      createdAt: "2024-01-08T08:48:04.240Z",
-      updatedAt: "2024-01-16T08:34:47.860Z",
-      Category: {
-        id: 1,
-        name: "Ladies",
-        createdAt: "2024-06-25 00:04:39.106 +0700",
-        updatedAt: "2024-06-25 00:04:39.106 +0700",
-      },
-    },
-  ]);
+
+export default function Home({url}) {
+  const [products, setProducts] = useState([])
+  const [search, setSearch] = useState('')
+
+  async function fetchProducts(){
+    try {
+      const {data} = await axios.get(`${url}/public/products?sort=createdAt&category=&author=&search=${search}&page[data]=&page[number]=`)
+      setProducts(data.data)
+      console.log(data.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+    useEffect(() =>{
+      fetchProducts()
+    },[search])
+
   return (
     <>
       {/*Home */}
       <div className="mt-8">
-        
         <div>
-          <form action="" method="get" className="flex justify-center items-center ">
+          <form
+            action=""
+            method="get"
+            className="flex justify-center items-center "
+          >
             <input
               type="search"
               name="search"
               placeholder="Search"
               className="input input-bordered  w-[85%] h-[50px] mx-1 input-sm"
+              onChange={(e) => setSearch(e.target.value)}
             />
           </form>
         </div>
@@ -105,6 +48,35 @@ export default function Home() {
             return <Card key={product.id} product={product} />;
           })}
         </main>
+      </div>
+      <div>
+        <div className="join">
+          <input
+            className="join-item btn btn-square"
+            type="radio"
+            name="options"
+            aria-label="1"
+            defaultChecked
+          />
+          <input
+            className="join-item btn btn-square"
+            type="radio"
+            name="options"
+            aria-label="2"
+          />
+          <input
+            className="join-item btn btn-square"
+            type="radio"
+            name="options"
+            aria-label="3"
+          />
+          <input
+            className="join-item btn btn-square"
+            type="radio"
+            name="options"
+            aria-label="4"
+          />
+        </div>
       </div>
     </>
   );

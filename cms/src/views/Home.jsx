@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
-import Table from "./Table";
+import Table from "../components/Table"
 import axios from "axios";
 import Toastify from 'toastify-js'
+import { baseUrl } from "../utils/baseUrl";
 
-export default function Home({ url }) {
+export default function Home() {
   const [products, setProducts] = useState([])
   const [search, setSearch] = useState('')
 
   async function fetchProducts (){
     try {
-
-      const token = localStorage.access_token
-      const { data } = await axios.get(`${url}/products?sort=createdAt&category=&author=&search=${search}`, {
+      const { data } = await axios.get(`${baseUrl}/products?sort=createdAt&category=&author=&search=${search}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${localStorage.access_token}`
         }
       })
       // console.log(data.products);
@@ -41,10 +40,6 @@ export default function Home({ url }) {
 
     useEffect(() => {
       fetchProducts()
-    }, [])
-
-    useEffect(() => {
-      fetchProducts()
     }, [search])
 
   return (
@@ -68,7 +63,7 @@ export default function Home({ url }) {
         </div>
       </div>
       <main className="flex items-center justify-center gap-10 my-8">
-        <Table products={products}/>
+        <Table products={products} fetchProducts={fetchProducts}/>
       </main>
     </>
   );

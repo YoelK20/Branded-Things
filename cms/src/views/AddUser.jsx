@@ -1,21 +1,23 @@
 import axios from "axios";
 import { useState } from "react";
 import Toastify from "toastify-js";
+import { baseUrl } from "../utils/baseUrl";
+import { useNavigate } from "react-router-dom";
 
-export default function AddUser({setPage, url}) {
-  const token = localStorage.access_token;
+export default function AddUser() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const navigate = useNavigate()
 
   async function handleAdd(e) {
     e.preventDefault();
     const newUser = { username, email, password, phoneNumber, address };
     try {
-      const { data } = await axios.post(`${url}/add-user`, newUser, {
-        headers: { Authorization: `Bearer ${token}` },
+      const { data } = await axios.post(`${baseUrl}/add-user`, newUser, {
+        headers: { Authorization: `Bearer ${localStorage.access_token}` },
       });
 
     //   console.log(newUser);
@@ -34,11 +36,11 @@ export default function AddUser({setPage, url}) {
           fontWeight: "bold",
         },
       }).showToast();
-      setPage("home");
+      navigate("home");
     } catch (error) {
       console.log(error);
       Toastify({
-        text: error.response.data.error,
+        text: error.response.data.message,
         duration: 2000,
         newWindow: true,
         close: true,

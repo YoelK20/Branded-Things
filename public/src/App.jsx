@@ -7,11 +7,12 @@ import Home from "./components/Home"
 
 function App() {
   const [page, setPage] = useState("home")
+  const url = "https://server.yoelk20.tech"
 
   return (
     <>
-      <Nav setPage={setPage} />
-      {page === "home" && <Home />}
+      <Nav setPage={setPage} url={url} />
+      {page === "home" && <Home url={url} />}
     </>
   )
 }
