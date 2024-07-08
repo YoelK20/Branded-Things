@@ -1,0 +1,1 @@
+export const baseUrl = "https://server.yoelk20.tech";
