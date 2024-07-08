@@ -53,7 +53,7 @@ export default function Home() {
             className="btn m-1 bg-gray-100 border-gray-100 hover:bg-slate-200 hover:border-0 btn-ghost"
           >
             <a>
-              <span className="text-red-500 font-bold text-2xl"></span>
+              <span className="text-red-500 font-bold text-2xl">Sort By</span>
             </a>
           </div>
           <ul

@@ -15,7 +15,7 @@ export default function Nav({ setPage }) {
         </div>
         <div className="navbar-end">
           <a className="text-2xl font-bold px-6">
-            <span className="text-red-500">Logout</span>
+            {/* <span className="text-red-500"></span> */}
           </a>
         </div>
       </nav>
